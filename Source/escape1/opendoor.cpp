@@ -20,13 +20,12 @@ void Uopendoor::BeginPlay()
 {
 	Super::BeginPlay();
 
-
-	player = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 void Uopendoor::opendoor()
 {
 	GetOwner()->SetActorRotation(FRotator(0, 90, 0));
+	
 }
 
 void Uopendoor::closedoor()
@@ -39,7 +38,7 @@ void Uopendoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if (pressureplate->IsOverlappingActor(player))
+	if (totalmass() > 50.0f)
 	{
 		opendoor();
 		time = GetWorld()->GetTimeSeconds();
@@ -51,3 +50,14 @@ void Uopendoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	}
 }
 
+float Uopendoor::totalmass()
+{
+	TArray<AActor*> actors;
+	float mass = 0.0f;
+	pressureplate->GetOverlappingActors(actors);
+	for (auto actor : actors)
+	{
+		mass += actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+	}
+	return mass;
+}

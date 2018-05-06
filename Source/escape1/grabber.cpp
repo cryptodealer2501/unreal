@@ -27,7 +27,6 @@ void Ugrabber::BeginPlay()
 void Ugrabber::bindinput()
 {
 	input = GetOwner()->FindComponentByClass<UInputComponent>();
-
 	if (input)
 	{
 		input->BindAction("grab", IE_Pressed, this, &Ugrabber::grab);
@@ -42,12 +41,7 @@ void Ugrabber::bindinput()
 void Ugrabber::findhandle()
 {
 	handle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-
-	if (handle)
-	{
-
-	}
-	else
+	if (!handle)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s no handle found"), *GetOwner()->GetName());
 	}
@@ -55,21 +49,16 @@ void Ugrabber::findhandle()
 
 void Ugrabber::grab()
 {
-	UE_LOG(LogTemp, Warning, TEXT("grab"));
 	FHitResult target = raycast();
 	UPrimitiveComponent* component = target.GetComponent();
-
 	if (target.GetActor())
 	{
 		handle->GrabComponent(component, NAME_None, component->GetOwner()->GetActorLocation(), true);
-		UE_LOG(LogTemp, Warning, TEXT("grabbed"));
 	}
-
 }
 
 void Ugrabber::release()
 {
-	UE_LOG(LogTemp, Warning, TEXT("release"));
 	handle->ReleaseComponent();
 }
 
@@ -85,10 +74,6 @@ FHitResult Ugrabber::raycast()
 											FCollisionQueryParams(FName(TEXT("")),
 																  false,
 																  GetOwner()));
-	if (hit.GetActor())
-	{
-		UE_LOG(LogTemp, Warning, TEXT("hit %s"), *hit.GetActor()->GetName());
-	}
 	return hit;
 }
 
@@ -99,7 +84,6 @@ void Ugrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(position, rotation);
 	endline = position + rotation.Vector() * reach;
-
 	if (handle->GrabbedComponent)
 	{
 		handle->SetTargetLocation(endline);

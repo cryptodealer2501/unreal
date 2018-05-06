@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "GameFramework/Actor.h"
 #include "Engine/TriggerVolume.h"
+#include "Components/PrimitiveComponent.h"
 #include "opendoor.generated.h"
 
 
@@ -24,11 +25,11 @@ protected:
 
 	void opendoor();
 	void closedoor();
+	float totalmass();
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 		
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -36,9 +37,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume* pressureplate;
-
-	UPROPERTY(EditAnywhere)
-		AActor* player;
 
 	UPROPERTY(EditAnywhere)
 		float delay = 1.0f;

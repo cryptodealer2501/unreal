@@ -33,8 +33,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UPROPERTY(EditAnywhere)
-		float reach = 250.0f;
+	float reach = 250.0f;
 
 	FRotator rotation;
 	FVector position;
