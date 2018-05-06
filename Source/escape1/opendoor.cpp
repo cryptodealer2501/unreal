@@ -39,7 +39,6 @@ void Uopendoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
 	if (pressureplate->IsOverlappingActor(player))
 	{
 		opendoor();

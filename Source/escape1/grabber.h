@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
+#include "Components/PrimitiveComponent.h"
 #include "grabber.generated.h"
 
 
@@ -19,6 +22,11 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	void bindinput();
+	void findhandle();
+	void grab();
+	void release();
+	FHitResult raycast();
 
 public:	
 	// Called every frame
@@ -32,4 +40,7 @@ private:
 	FVector position;
 	FVector endline;
 	FHitResult hit;
+
+	UPhysicsHandleComponent* handle;
+	UInputComponent* input;
 };
