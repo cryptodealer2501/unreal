@@ -38,8 +38,9 @@ private:
 	UPROPERTY(EditAnywhere)
 		ATriggerVolume* pressureplate;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAn)
 		float delay = 1.0f;
 
 	float time;
+	int32 dev = 1 / 120;
 };

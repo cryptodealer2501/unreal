@@ -19,7 +19,7 @@ Uopendoor::Uopendoor()
 void Uopendoor::BeginPlay()
 {
 	Super::BeginPlay();
-
+	FRotator g(0, 90, 0);
 }
 
 void Uopendoor::opendoor()
@@ -40,13 +40,20 @@ void Uopendoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	if (totalmass() > 50.0f)
 	{
-		opendoor();
+		if (GetOwner()->GetActorRotation().Yaw < 90)
+		{
+			GetOwner()->AddActorLocalRotation(FRotator(0, 180* DeltaTime, 0));
+			UE_LOG(LogTemp, Warning, TEXT(""));
+		}
 		time = GetWorld()->GetTimeSeconds();
 	}
 	
 	if ((GetWorld()->GetTimeSeconds()) - time > delay)
 	{
-		closedoor();
+		if (GetOwner()->GetActorRotation().Yaw > 0)
+		{
+			GetOwner()->AddActorLocalRotation(FRotator(0, -180* DeltaTime, 0));
+		}
 	}
 }
 
