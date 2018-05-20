@@ -53,12 +53,14 @@ void Ugrabber::grab()
 	UPrimitiveComponent* component = target.GetComponent();
 	if (target.GetActor())
 	{
+		if (!handle) { return; }
 		handle->GrabComponent(component, NAME_None, component->GetOwner()->GetActorLocation(), true);
 	}
 }
 
 void Ugrabber::release()
 {
+	if (!handle) { return; }
 	handle->ReleaseComponent();
 }
 
@@ -83,7 +85,8 @@ void Ugrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(position, rotation);
-	endline = position + rotation.Vector() * reach;
+	endline = position + rotation.Vector() * hit.Distance;
+	if (!handle) { return; }
 	if (handle->GrabbedComponent)
 	{
 		handle->SetTargetLocation(endline);

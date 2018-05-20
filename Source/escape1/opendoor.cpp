@@ -19,18 +19,10 @@ Uopendoor::Uopendoor()
 void Uopendoor::BeginPlay()
 {
 	Super::BeginPlay();
-	FRotator g(0, 90, 0);
-}
-
-void Uopendoor::opendoor()
-{
-	GetOwner()->SetActorRotation(FRotator(0, 90, 0));
-	
-}
-
-void Uopendoor::closedoor()
-{
-	GetOwner()->SetActorRotation(FRotator(0, 0, 0));
+	if (!pressureplate)
+	{
+		UE_LOG(LogTemp, Error, TEXT("%s no triggervolume"), *GetOwner()->GetName());
+	}
 }
 
 // Called every frame
@@ -40,27 +32,20 @@ void Uopendoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	if (totalmass() > 50.0f)
 	{
-		if (GetOwner()->GetActorRotation().Yaw < 90)
-		{
-			GetOwner()->AddActorLocalRotation(FRotator(0, 180* DeltaTime, 0));
-			UE_LOG(LogTemp, Warning, TEXT(""));
-		}
-		time = GetWorld()->GetTimeSeconds();
+		open.Broadcast();
+	}
+	else
+	{
+		close.Broadcast();
 	}
 	
-	if ((GetWorld()->GetTimeSeconds()) - time > delay)
-	{
-		if (GetOwner()->GetActorRotation().Yaw > 0)
-		{
-			GetOwner()->AddActorLocalRotation(FRotator(0, -180* DeltaTime, 0));
-		}
-	}
 }
 
 float Uopendoor::totalmass()
 {
 	TArray<AActor*> actors;
 	float mass = 0.0f;
+	if (!pressureplate) { return mass; }
 	pressureplate->GetOverlappingActors(actors);
 	for (auto actor : actors)
 	{
