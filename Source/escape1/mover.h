@@ -4,42 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "PhysicsEngine/PhysicsHandleComponent.h"
-#include "Components/InputComponent.h"
-#include "Components/PrimitiveComponent.h"
-#include "grabber.generated.h"
+#include "mover.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class ESCAPE1_API Ugrabber : public UActorComponent
+class ESCAPE1_API Umover : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	Ugrabber();
+	Umover();
 
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-	void bindinput();
-	void findhandle();
-	void grab();
-	void release();
-	FHitResult raycast();
 
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-private:
-	float reach = 500.0f;
-
-	FRotator rotation;
-	FVector position;
-	FVector endline;
-	FHitResult hit;
-
-	UPhysicsHandleComponent* handle;
-	UInputComponent* input;
+	UPROPERTY(EditAnywhere)
+		AActor* player;
+	
+	FVector g;
+	float t;
+	float x;
+	float y;
 };
